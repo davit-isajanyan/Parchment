@@ -961,7 +961,6 @@
 					};
 					95D2AE4E242BCC9500AC3D46 = {
 						CreatedOnToolsVersion = 11.3.1;
-						DevelopmentTeam = G4TGN24VA2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1575,7 +1574,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ExampleSwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = G4TGN24VA2;
+				DEVELOPMENT_TEAM = QVJB8C46KP;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ExampleSwiftUI/Info.plist;
@@ -1605,7 +1604,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ExampleSwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = G4TGN24VA2;
+				DEVELOPMENT_TEAM = QVJB8C46KP;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ExampleSwiftUI/Info.plist;

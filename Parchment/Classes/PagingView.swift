@@ -12,6 +12,8 @@ open class PagingView: UIView {
 
     public let collectionView: UICollectionView
     public let pageView: UIView
+    public let rightView: UIView?
+    
     public var options: PagingOptions {
         didSet {
             heightConstraint?.constant = options.menuHeight
@@ -29,10 +31,11 @@ open class PagingView: UIView {
     ///
     /// - Parameter options: The `PagingOptions` passed into the
     /// `PagingViewController`.
-    public init(options: PagingOptions, collectionView: UICollectionView, pageView: UIView) {
+    public init(options: PagingOptions, collectionView: UICollectionView, pageView: UIView, rightView: UIView? = nil) {
         self.options = options
         self.collectionView = collectionView
         self.pageView = pageView
+        self.rightView = rightView
         super.init(frame: .zero)
     }
 
@@ -48,6 +51,9 @@ open class PagingView: UIView {
         collectionView.backgroundColor = options.menuBackgroundColor
         addSubview(pageView)
         addSubview(collectionView)
+        if let rightView {
+            addSubview(rightView)
+        }
         setupConstraints()
     }
 
@@ -61,10 +67,22 @@ open class PagingView: UIView {
         heightConstraint.isActive = true
         heightConstraint.priority = .defaultHigh
         self.heightConstraint = heightConstraint
-
+        
+        var collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        
+        if let rightView {
+            collectionViewTrailingConstraint = collectionView.trailingAnchor.constraint(equalTo: rightView.leadingAnchor)
+            rightView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                rightView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                rightView.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
+                rightView.topAnchor.constraint(equalTo: collectionView.topAnchor)
+            ])
+        }
+        
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionViewTrailingConstraint,
             pageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pageView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])

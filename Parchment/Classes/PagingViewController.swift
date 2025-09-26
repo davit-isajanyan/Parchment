@@ -282,6 +282,8 @@ open class PagingViewController:
             pagingView.options = options
         }
     }
+    
+    public var rightView: UIView?
 
     // MARK: Private Properties
 
@@ -310,8 +312,9 @@ open class PagingViewController:
     ///
     /// - Parameter options: An object with configuration options. These
     /// parameters are also available directly on `PagingViewController`.
-    public init(options: PagingOptions = PagingOptions()) {
+    public init(options: PagingOptions = PagingOptions(), rightView: UIView? = nil) {
         self.options = options
+        self.rightView = rightView
         pagingController = PagingController(options: options)
         pageViewController = PageViewController(options: options)
         collectionViewLayout = createLayout(layout: options.menuLayoutClass.self)
@@ -336,9 +339,10 @@ open class PagingViewController:
     /// generate the menu items.
     public convenience init(
         options: PagingOptions = PagingOptions(),
-        viewControllers: [UIViewController]
+        viewControllers: [UIViewController],
+        rightView: UIView? = nil
     ) {
-        self.init(options: options)
+        self.init(options: options, rightView: rightView)
         configureDataSource(for: viewControllers)
     }
 
@@ -473,7 +477,8 @@ open class PagingViewController:
         view = PagingView(
             options: options,
             collectionView: collectionView,
-            pageView: pageViewController.view
+            pageView: pageViewController.view,
+            rightView: rightView
         )
     }
 
