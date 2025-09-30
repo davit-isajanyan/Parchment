@@ -21,7 +21,7 @@ open class PagingIndicatorLayoutAttributes: UICollectionViewLayoutAttributes {
     }
 
     func configure(_ options: PagingOptions) {
-        if case let .visible(height, index, _, insets) = options.indicatorOptions {
+        if case let .visible(height, _, index, _, insets) = options.indicatorOptions {
             backgroundColor = options.indicatorColor
             frame.size.height = height
 

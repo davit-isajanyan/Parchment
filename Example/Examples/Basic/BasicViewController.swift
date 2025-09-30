@@ -58,6 +58,7 @@ class BasicViewController: UIViewController {
 
         let pagingViewController = PagingViewController(viewControllers: viewControllers, rightView: buttonsStackView)
 
+        pagingViewController.indicatorOptions = .visible(height: 2, width: 26, zIndex: Int.max, spacing: .zero, insets: .zero)
         // Make sure you add the PagingViewController as a child view
         // controller and constrain it to the edges of the view.
         addChild(pagingViewController)
