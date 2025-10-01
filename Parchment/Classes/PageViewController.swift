@@ -5,6 +5,19 @@ import UIKit
 /// is the main issue with `UIPageViewController`.
 public final class PageViewController: UIViewController {
     // MARK: Public Properties
+    
+    private var initialTouchLocation: CGPoint?
+    private var swipeHandlers: [ObjectIdentifier: (() -> Void)] = [:]
+    
+    public func setSwipeHandler(for viewController: UIViewController, handler: (() -> Void)?) {
+        let key = ObjectIdentifier(viewController)
+        swipeHandlers[key] = handler
+    }
+    
+    private func handler(for viewController: UIViewController?) -> (() -> Void)? {
+        guard let vc = viewController else { return nil }
+        return swipeHandlers[ObjectIdentifier(vc)]
+    }
 
     public weak var dataSource: PageViewControllerDataSource?
     public weak var delegate: PageViewControllerDelegate?
@@ -215,6 +228,11 @@ public final class PageViewController: UIViewController {
 extension PageViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_: UIScrollView) {
         manager.willBeginDragging()
+        
+        if let vc = manager.selectedViewController {
+            let pan = scrollView.panGestureRecognizer
+            initialTouchLocation = pan.location(in: vc.view)
+        }
     }
 
     public func scrollViewWillEndDragging(_: UIScrollView, withVelocity _: CGPoint, targetContentOffset _: UnsafeMutablePointer<CGPoint>) {
@@ -240,8 +258,28 @@ extension PageViewController: UIScrollViewDelegate {
                 progress = (contentOffset - distance) / distance
             }
         }
+        
+        if (scrollView.isDragging || scrollView.isTracking),
+           let currentVC = manager.selectedViewController,
+           let customHandler = handler(for: currentVC) {
+            if progress > 0, self.isTouchOnSwipeArea(currentVC) {
+                self.contentOffset = pageSize * CGFloat(manager.state == .center ? 1 : 0)
+                customHandler()
+                return
+            }
+        }
 
         manager.didScroll(progress: progress)
+    }
+    
+    public func resetInitialTouchLocation() {
+        initialTouchLocation = nil
+    }
+    
+    private func isTouchOnSwipeArea(_ controller: UIViewController) -> Bool {
+        guard let touchPoint = initialTouchLocation else { return false }
+        let rectToSwipe = CGRect(x: view.frame.width * 0.5, y: 120, width: view.frame.width * 0.5, height: view.frame.height - 120)
+        return rectToSwipe.contains(touchPoint)
     }
 }
 
