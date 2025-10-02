@@ -278,7 +278,8 @@ extension PageViewController: UIScrollViewDelegate {
     
     private func isTouchOnSwipeArea(_ controller: UIViewController) -> Bool {
         guard let touchPoint = initialTouchLocation else { return false }
-        let rectToSwipe = CGRect(x: view.frame.width * 0.5, y: 120, width: view.frame.width * 0.5, height: view.frame.height - 120)
+        let touchWidthPercent: CGFloat = 0.35
+        let rectToSwipe = CGRect(x: view.frame.width * (1 - touchWidthPercent), y: 120, width: view.frame.width * touchWidthPercent, height: view.frame.height - 120)
         return rectToSwipe.contains(touchPoint)
     }
 }
